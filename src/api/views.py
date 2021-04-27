@@ -6,18 +6,12 @@ from rest_framework.decorators import api_view
 import datetime
 # Create your views here.
 
-"""
-Welcome message endpoint
-Return Welcome Message by GET method
-@Param: request
-"""
-
 @api_view(["GET"])
-def welcome_message_core(request):
+def welcome_message_api(request):
 
     data = {
         "code": 1,
-        "message": "Core View Welcome Message",
+        "message": "API View Welcome Message",
         "timestamp": int(datetime.datetime.now().timestamp())
     }
 

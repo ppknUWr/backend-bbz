@@ -16,10 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from core.views import TestView
+"""
+Sekcja ładowania endpointów z różnych aplikacji (core, api, authentication)
+"""
+import core.urls
+import api.urls
+import authentication.urls
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
-    path('', TestView.as_view(), name = 'Test'),
+    path('', include('core.urls')),
+    path('core/', include('core.urls')),
+    path('api/', include('api.urls')),
+    path('authentication/', include('authentication.urls')),
     path('admin/', admin.site.urls)
 ]

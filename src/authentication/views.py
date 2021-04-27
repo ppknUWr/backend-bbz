@@ -13,11 +13,11 @@ Return Welcome Message by GET method
 """
 
 @api_view(["GET"])
-def welcome_message_core(request):
+def welcome_message_authentication(request):
 
     data = {
         "code": 1,
-        "message": "Core View Welcome Message",
+        "message": "Authentication View Welcome Message",
         "timestamp": int(datetime.datetime.now().timestamp())
     }
 
