@@ -12,20 +12,21 @@ class BibliographyTemplateModel(models.Model):
     # FIELDS GO HERE
     id = models.IntegerField(primary_key=True) #1 - ID rekordu (integer)
     author = models.ForeignKey("auth.User", on_delete=models.CASCADE) #2 - Autor (Powiązanie jeden-do-wielu z użytkownikiem.)
+    book_author = models.CharField(default = "Bez autora", max_length=512) #2.5 - Autor (autor książki) 
     co_authors = models.CharField(max_length=256, default = "Bez współtwórcy.") #3 - Współtwórca (string)
     editor = models.CharField(max_length = 256, default = "Bez redaktora.") #4 - Redaktor (string)
     title = models.TextField(default = "Brak Tytułu.") #5 - Tytuł (string)
     subtitle = models.TextField(default = "Bez podtytułu.") #6 - Podtytuł (string)
     original_edition = models.TextField(default = "Bez wydania oryginalnego.") #7 - Wydane oryginalne (string)
     series = models.TextField(default = "Bez numeru serii.") #8 - Numer serii (string?)
-    publication_date = models.SmallIntegerField(default = 1900) #9 - Rok wydania (SmallIntegerField (zakres: -32768 do 32767))
+    publication_date = models.TextField(default = "Brak roku wydania.") #9 - Rok wydania (TextField, string)
     publication = models.TextField(default = "Bez wydania.") #10 - Wydanie (string)
     publication_place = models.TextField(default = "Bez miejsca wydania.") #11 - Miejsce wydania (string)
     publisher = models.TextField(default = "Bez wydawcy.") #12 - Wydawca (string)
     source = models.TextField(default = "Bez źródła.") #13 - Źródło (string)
     number = models.TextField(default = "Bez numeru.") #14 - Numer (string)
     notebook = models.TextField(default = "Bez zeszytu.") #15 - Zeszyt (string)
-    pages = models.SmallIntegerField(default = 0) #16 - Strony (SmallIntegerField (zakres: -32768 do 32767))
+    pages = models.TextField(default = "0") #16 - Strony (Text Field (string))
     language = models.TextField(default = "Bez języka.") #17 - Język (string)
     isbn_or_issn_number = models.TextField(default = "Bez numeru ISBN/ISSN.") #18 - ISBN/ISSN numer (string)
     doi_number = models.TextField(default = "Bez numeru DOI.") #19 - Numer DOI (strng)
@@ -34,7 +35,7 @@ class BibliographyTemplateModel(models.Model):
     comments = models.TextField(default = "Bez komentarzy.") #22 - Komentarze (string)
 
     def __str__(self):
-        return self.name
+        return self.title
  
     class Meta:
         print("OK")

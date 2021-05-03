@@ -1,9 +1,9 @@
-# TODO: Create Script to add data. :)
 
 # Section: Import modules
 import django
 import os
 import json
+import time
 
 # Section: Django setup
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bbz_project.settings")
@@ -13,7 +13,7 @@ from api.models import *
 import api.json_worker as json_worker
 from django.contrib.auth.models import User
 
-u = User.objects.get(username = "root")
+u = User.objects.get(username = "root") # Default user for any bibliography
 
 # Section: Get data from JSON
 path_to_json = "../convert/database_json/" # Path to directory that have all .json files
@@ -105,4 +105,31 @@ if __name__ == "__main__":
     for index, model in enumerate(models_django):
         
         for data in models_script[index]:
-            print(data)
+
+            model.objects.create(
+                author = u, 
+                book_author = data['record_author'],
+                co_authors = data['record_coauthor'],
+                editor = data['record_editor'],
+                title = data['record_title'],
+                subtitle = data['record_subtitle'],
+                original_edition = data['record_original_edition'],
+                series = data['record_series'],
+                publication_date = data['record_publication_date'],
+                publication = data['record_edition'],
+                publication_place = data['record_place_of_publication'],
+                publisher = data['record_publisher'],
+                source = data['record_source'],
+                number = data['record_volume'],
+                notebook = data['record_issue'],
+                pages = data['record_pages'],
+                language = data['record_language'],
+                isbn_or_issn_number = data['record_issn'],
+                doi_number = data['record_doi'],
+                link = data['record_source_link'],
+                keywords_and_content = data['record_keywords'],
+                comments = data['record_additional_info']
+            )
+            print(f"Adding: {data['record_title']} to database.")
+            time.sleep(0.1) # Sleep is necessary here, because if we don't assign delay, Django is going to add records too fast, and everything will collapse. IMPORATANT!!!
+            
