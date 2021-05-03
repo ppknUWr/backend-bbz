@@ -9,6 +9,12 @@ import json
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bbz_project.settings")
 django.setup()
 
+from api.models import *
+import api.json_worker as json_worker
+from django.contrib.auth.models import User
+
+u = User.objects.get(username = "root")
+
 # Section: Get data from JSON
 path_to_json = "../convert/database_json/" # Path to directory that have all .json files
 json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')] # Get names of .json files to list
@@ -81,10 +87,22 @@ def nest_dict_data(dict_data):
 if __name__ == "__main__":
     print("[INFO] Script is working.")
 
+    models_django = list() # List handles all models loaded, and pass to admin.py
+    models_script = list()
+    models_from_json = json_worker.get_models() # IMPORTANT: Function from json_worker.py
+
+    for model in models_from_json["models"]:
+        model = NewBibliographyDynamicModel(BibliographyTemplateModel, model) # Initialise new DynamicModel
+        models_django.append(model)
+
     for file in json_files:
         dict_data = convert_json_to_dict(file)
-        models_from_dict_data = nest_dict_data(dict_data)
+        models_from_dict_data = nest_dict_data(dict_data) 
+        models_script.append(models_from_dict_data)
 
-        for model in models_from_dict_data:
-            print(model)
+    models_django_len = len(models_django)
+
+    for index, model in enumerate(models_django):
         
+        for data in models_script[index]:
+            print(data)
