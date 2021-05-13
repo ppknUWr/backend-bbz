@@ -10,8 +10,8 @@ def serializer_prepare_model_names():
     data = dict()
     data["result"] = dict()
     data["result"]["names"] = list()
-    for model in models:
-        data["result"]["names"].append(model._meta.object_name)
+    for index, model in enumerate(models):
+        data["result"]["names"].append({"id": index, "name": model._meta.object_name})
 
     if len(data["result"]["names"]) == len(models):
         data["result"]["code"] = 1 # CODE: Everything is ok
