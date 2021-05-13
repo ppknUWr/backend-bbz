@@ -1,0 +1,4 @@
+# Exclude all docx, xlsx and xls files from converters. They are probably useless to use, cuz we need JSON data.
+*.docx
+*.xlsx
+*.xls
