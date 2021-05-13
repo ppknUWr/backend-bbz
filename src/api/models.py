@@ -38,7 +38,6 @@ class BibliographyTemplateModel(models.Model):
         return self.title
  
     class Meta:
-        print("OK")
         abstract = True
         verbose_name_plural = "Test"
 
@@ -71,7 +70,7 @@ class NewBibliographyDynamicModel(object):
 """
 Initialise all models - initialise dynamic models
 """
-models = list() # List handles all models loaded, and pass to admin.py
+models = list() # List handles all models loaded, and pass to admin.py & serializers.py, it's really important list
 models_from_json = json_worker.get_models() # IMPORTANT: Function from json_worker.py
 
 for model in models_from_json["models"]:
