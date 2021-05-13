@@ -4,7 +4,7 @@ import os
 """
 Functon to fetch MODELS from data/models.json
 @Param: -
-@Return: dict: models -> JSON files that handle dynamic models
+@Return: data: Dict -> JSON files that handle dynamic models
 """
 
 def get_models():
