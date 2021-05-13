@@ -3,5 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.welcome_message_api),
+    path('request_db', views.get_requested_db),
+    path('get_all_dbs', views.get_all_dbs),
     path('db_names', views.get_model_names)
 ]
