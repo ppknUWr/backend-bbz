@@ -1,1 +1,1 @@
-web: gunicorn bbz_project.wsgi --log-file - 
+web: cd src && gunicorn bbz_project.wsgi --log-file - 
