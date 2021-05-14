@@ -1,0 +1,1 @@
+web: gunicorn bbz_project.wsgi --log-file -
