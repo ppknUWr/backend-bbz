@@ -1,3 +1,3 @@
-web: gunicorn bbz_project.wsgi:application --log-file - --log-level debug
-python manage.py collectstatic --noinput
+web: gunicorn backend-bbz.wsgi --log-file - --log-level debug
+python3 manage.py collectstatic --noinput
 manage.py migrate
