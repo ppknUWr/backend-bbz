@@ -1,5 +1,6 @@
 import json
 import os
+from bbz_project.settings import STATIC_ROOT
 
 """
 Functon to fetch MODELS from data/models.json
@@ -8,6 +9,6 @@ Functon to fetch MODELS from data/models.json
 """
 
 def get_models():
-    with open("api/data/models.json", "r") as json_file:
+    with open(STATIC_ROOT + "/data/models.json", "r") as json_file:
         data = json.load(json_file)
         return data
