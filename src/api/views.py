@@ -25,7 +25,7 @@ def welcome_message_api(request):
 
     return Response(data)
 
-  """
+"""
 get_requested_db
 Function to return data for requested DB from database
 @Param: selected_db_id: string 
