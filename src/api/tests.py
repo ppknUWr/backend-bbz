@@ -4,6 +4,7 @@ from api.models import models
 from rest_framework.test import APITestCase
 from django.urls import reverse
 import api.json_worker as json_worker
+import os
 import json
 
 # Create your tests here.
@@ -20,6 +21,7 @@ class APITestDynamicModels(APITestCase):
         for model in models:
             models_names.append(model._meta.object_name)
         self.assertEqual(models_names, data_json["models"])
+
 
 class APITestEndpoints(APITestCase):
 

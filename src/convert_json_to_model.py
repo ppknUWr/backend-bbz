@@ -5,6 +5,12 @@ import os
 import json
 import time
 
+pl_alphabet = [
+    'a', 'ą', 'b', 'c', 'ć', 'd', 'e', 'ę', 'f', 'g', 'h', 'i',
+    'j', 'k', 'l', 'ł', 'm', 'n', 'ń', 'o', 'ó', 'p', 'r', 's',
+    'ś', 't', 'u', 'w', 'y', 'z', 'ź', 'ż'
+] # Polish alphabet to keep .json files in correct order - related to those in Django Database.
+
 # Section: Django setup
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bbz_project.settings")
 django.setup()
@@ -17,7 +23,7 @@ u = User.objects.get(username = "root") # Default user for any bibliography
 
 # Section: Get data from JSON
 path_to_json = "../convert/database_json/" # Path to directory that have all .json files
-json_files = [pos_json for pos_json in os.listdir(path_to_json) if pos_json.endswith('.json')] # Get names of .json files to list
+json_files = os.listdir(path_to_json) # Get names of .json files to list
 
 """
 convert_json_to_dict
@@ -26,8 +32,10 @@ Function open file, convert .json data to dict and return it
 @Return: data: Dict - converted data from .json to dict
 """
 def convert_json_to_dict(json_file):
-    
-    with open(path_to_json + json_file, "r") as f:
+
+    with open(path_to_json + json_file, "r+") as f:
+        # if json_file != "Opis rekordu bibliograficznego PHC.json": # Prevent "Opis rekordu" to add when someone add it to database_json
+        # print(json_file)
         data = json.load(f)
         return data
 
@@ -95,6 +103,10 @@ if __name__ == "__main__":
         model = NewBibliographyDynamicModel(BibliographyTemplateModel, model) # Initialise new DynamicModel
         models_django.append(model)
 
+    json_files = sorted(json_files, key = lambda x: pl_alphabet.index(x[0].lower())) # Sort json_files to polish correct order - related to Django Models in DB.
+    print(json_files)
+
+
     for file in json_files:
         dict_data = convert_json_to_dict(file)
         models_from_dict_data = nest_dict_data(dict_data) 
@@ -102,34 +114,34 @@ if __name__ == "__main__":
 
     models_django_len = len(models_django)
 
-    for index, model in enumerate(models_django):
+    # for index, model in enumerate(models_django):
         
-        for data in models_script[index]:
+    #     for data in models_script[index]:
 
-            model.objects.create(
-                author = u, 
-                book_author = data['record_author'],
-                co_authors = data['record_coauthor'],
-                editor = data['record_editor'],
-                title = data['record_title'],
-                subtitle = data['record_subtitle'],
-                original_edition = data['record_original_edition'],
-                series = data['record_series'],
-                publication_date = data['record_publication_date'],
-                publication = data['record_edition'],
-                publication_place = data['record_place_of_publication'],
-                publisher = data['record_publisher'],
-                source = data['record_source'],
-                number = data['record_volume'],
-                notebook = data['record_issue'],
-                pages = data['record_pages'],
-                language = data['record_language'],
-                isbn_or_issn_number = data['record_issn'],
-                doi_number = data['record_doi'],
-                link = data['record_source_link'],
-                keywords_and_content = data['record_keywords'],
-                comments = data['record_additional_info']
-            )
-            print(f"Adding: {data['record_title']} to database.")
-            time.sleep(0.1) # Sleep is necessary here, because if we don't assign delay, Django is going to add records too fast, and everything will collapse. IMPORATANT!!!
+    #         model.objects.create(
+    #             author = u, 
+    #             book_author = data['record_author'],
+    #             co_authors = data['record_coauthor'],
+    #             editor = data['record_editor'],
+    #             title = data['record_title'],
+    #             subtitle = data['record_subtitle'],
+    #             original_edition = data['record_original_edition'],
+    #             series = data['record_series'],
+    #             publication_date = data['record_publication_date'],
+    #             publication = data['record_edition'],
+    #             publication_place = data['record_place_of_publication'],
+    #             publisher = data['record_publisher'],
+    #             source = data['record_source'],
+    #             number = data['record_volume'],
+    #             notebook = data['record_issue'],
+    #             pages = data['record_pages'],
+    #             language = data['record_language'],
+    #             isbn_or_issn_number = data['record_issn'],
+    #             doi_number = data['record_doi'],
+    #             link = data['record_source_link'],
+    #             keywords_and_content = data['record_keywords'],
+    #             comments = data['record_additional_info']
+    #         )
+    #         print(f"Adding: {data['record_title']} to database.")
+    #         time.sleep(0.1) # Sleep is necessary here, because if we don't assign delay, Django is going to add records too fast, and everything will collapse. IMPORATANT!!!
             
