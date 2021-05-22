@@ -66,15 +66,17 @@ class NewBibliographyDynamicModel(object):
         return cls._instance[new_cls_name]
 
 
-
 """
 Initialise all models - initialise dynamic models
 """
 models = list() # List handles all models loaded, and pass to admin.py & serializers.py, it's really important list
 models_from_json = json_worker.get_models() # IMPORTANT: Function from json_worker.py
 
+# models_from_json["models"] = sorted(models_from_json["models"]) # Keep the correct order in models, even when someone mades a typo and create a new model at the end of models.json with "a" on start
+
 for model in models_from_json["models"]:
     model = NewBibliographyDynamicModel(BibliographyTemplateModel, model) # Initialise new DynamicModel
     model._meta.verbose_name_plural = model._meta.db_table # IMPORTANT: Set name of table in Django Admin Panel to table name - remove extra "s" from name.
     models.append(model) # Append new dynamc model to list, to pass it to admin.py
+
 
