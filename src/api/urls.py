@@ -7,5 +7,6 @@ urlpatterns = [
     path('', views.welcome_message_api),
     path('request_db', views.get_requested_db),
     path('get_all_dbs', views.get_all_dbs),
-    path('db_names', views.get_model_names)
+    path('db_names', views.get_model_names),
+    path('update_record/<db_id>/<record_id>', views.update_record)
 ]

@@ -18,3 +18,7 @@ def serializer_prepare_model_names():
     else:
         data["result"]["code"] = 100 # CODE: Number of models returned from API is less/greater than dynamic models loaded into Django
     return data
+
+def serializer_update_record(db_id, record_id, data):
+    print(db_id, record_id, data)
+    print(models[db_id].objects.filter(id = record_id))

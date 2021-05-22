@@ -86,3 +86,8 @@ Function to return name of models in Django DB
 def get_model_names(request):
     return Response(serializers.serializer_prepare_model_names())
 
+
+@api_view(["PATCH"])
+def update_record(request, db_id, record_id):
+    serializers.serializer_update_record(int(db_id), int(record_id), request.data)
+    return Response({})
