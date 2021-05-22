@@ -79,3 +79,4 @@ for model in models_from_json["models"]:
     model._meta.verbose_name_plural = model._meta.db_table # IMPORTANT: Set name of table in Django Admin Panel to table name - remove extra "s" from name.
     models.append(model) # Append new dynamc model to list, to pass it to admin.py
 
+
