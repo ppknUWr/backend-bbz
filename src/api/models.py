@@ -80,3 +80,4 @@ for model in models_from_json["models"]:
     models.append(model) # Append new dynamc model to list, to pass it to admin.py
 
 
+

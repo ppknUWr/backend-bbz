@@ -104,7 +104,6 @@ if __name__ == "__main__":
         models_django.append(model)
 
     json_files = sorted(json_files, key = lambda x: pl_alphabet.index(x[0].lower())) # Sort json_files to polish correct order - related to Django Models in DB.
-    print(json_files)
 
 
     for file in json_files:
