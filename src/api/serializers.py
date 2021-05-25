@@ -19,11 +19,25 @@ def serializer_prepare_model_names():
         data["result"]["code"] = 100 # CODE: Number of models returned from API is less/greater than dynamic models loaded into Django
     return data
 
+"""
+Function to serializer given data to update record
+@Param: db_id: Int -> ID of Table to update
+@Param: record_id: Int -> ID of Record to update
+@Param: data: Dict -> Dictionary that handles key, values of updateded record
+@Return: response: Dict -> Updated record or response with error
+"""
 def serializer_update_record(db_id, record_id, data):
     record = models[db_id].objects.get(id = record_id)
 
-    #TODO: Validation
-    #TODO: Documentation
+    list_of_fields_in_record = [f.name for f in record._meta.get_fields() if f.name != "id" and f.name != "author"]
+    list_of_fields_in_data = [key for key, value in data.items()]
+
+    def validate_data():
+        # Check, if fields in JSON data are the same like in model.
+        if(list_of_fields_in_data == list_of_fields_in_record):
+            return True
+        else:
+            return False
 
     def change_record_to_data_in_patch():
         record.book_author = data['book_author']
@@ -49,31 +63,36 @@ def serializer_update_record(db_id, record_id, data):
         record.comments = data['comments']
         record.save()
 
-    change_record_to_data_in_patch()
+    # If validate data is true, then return response and update record
+    if validate_data():
 
-    response = {
-        "book_author": record.book_author,
-        "co_authors": record.co_authors,
-        "editor": record.editor,
-        "title": record.title,
-        "subtitle": record.subtitle,
-        "original_edition": record.original_edition,
-        "series": record.series,
-        "publication_date": record.publication_date, 
-        "publication": record.publication,
-        "publication_place": record.publication_place,
-        "publisher": record.publisher,
-        "source": record.source,
-        "number": record.number,
-        "notebook": record.notebook,
-        "pages": record.pages,
-        "language": record.language,
-        "isbn_or_issn_number": record.isbn_or_issn_number,
-        "doi_number": record.doi_number,
-        "link": record.link,
-        "keywords_and_content": record.keywords_and_content,
-        "comments": record.comments
-    }
+        change_record_to_data_in_patch()
+
+        response = {
+            "book_author": record.book_author,
+            "co_authors": record.co_authors,
+            "editor": record.editor,
+            "title": record.title,
+            "subtitle": record.subtitle,
+            "original_edition": record.original_edition,
+            "series": record.series,
+            "publication_date": record.publication_date, 
+            "publication": record.publication,
+            "publication_place": record.publication_place,
+            "publisher": record.publisher,
+            "source": record.source,
+            "number": record.number,
+            "notebook": record.notebook,
+            "pages": record.pages,
+            "language": record.language,
+            "isbn_or_issn_number": record.isbn_or_issn_number,
+            "doi_number": record.doi_number,
+            "link": record.link,
+            "keywords_and_content": record.keywords_and_content,
+            "comments": record.comments
+        }
     
+    else:
+        response = {"message": "You provided wrong JSON to update record"}
     return response
         

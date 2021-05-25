@@ -87,7 +87,14 @@ def get_model_names(request):
     return Response(serializers.serializer_prepare_model_names())
 
 
+"""
+update_record
+Function to update record in Django DB
+@Param: request: Request OBJ -> Handle request, and JSON data of record that we want to update
+@Param: db_id: Str -> ID of DB to update
+@Param: record_id: Str -> ID of record to update
+"""
 @api_view(["PATCH"])
 def update_record(request, db_id, record_id):
-    response = serializers.serializer_update_record(int(db_id), int(record_id), request.data)
+    response = serializers.serializer_update_record(int(db_id), int(record_id), request.data) # db_id and record_id need to be casted into integers.
     return Response(response)
