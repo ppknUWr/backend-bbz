@@ -89,5 +89,5 @@ def get_model_names(request):
 
 @api_view(["PATCH"])
 def update_record(request, db_id, record_id):
-    serializers.serializer_update_record(int(db_id), int(record_id), request.data)
-    return Response({})
+    response = serializers.serializer_update_record(int(db_id), int(record_id), request.data)
+    return Response(response)

@@ -20,5 +20,60 @@ def serializer_prepare_model_names():
     return data
 
 def serializer_update_record(db_id, record_id, data):
-    print(db_id, record_id, data)
-    print(models[db_id].objects.filter(id = record_id))
+    record = models[db_id].objects.get(id = record_id)
+
+    #TODO: Validation
+    #TODO: Documentation
+
+    def change_record_to_data_in_patch():
+        record.book_author = data['book_author']
+        record.co_authors = data['co_authors']
+        record.editor = data['editor']
+        record.title = data['title']
+        record.subtitle = data['subtitle']
+        record.original_edition = data['original_edition']
+        record.series = data['series']
+        record.publication_date = data['publication_date']
+        record.publication = data['publication']
+        record.publication_place = data['publication_place']
+        record.publisher = data['publisher']
+        record.source = data['source']
+        record.number = data['number']
+        record.notebook = data['notebook']
+        record.pages = data['pages']
+        record.language = data['language']
+        record.isbn_or_issn_number = data['isbn_or_issn_number']
+        record.doi_number = data['doi_number']
+        record.link = data['link']
+        record.keywords_and_content = data['keywords_and_content']
+        record.comments = data['comments']
+        record.save()
+
+    change_record_to_data_in_patch()
+
+    response = {
+        "book_author": record.book_author,
+        "co_authors": record.co_authors,
+        "editor": record.editor,
+        "title": record.title,
+        "subtitle": record.subtitle,
+        "original_edition": record.original_edition,
+        "series": record.series,
+        "publication_date": record.publication_date, 
+        "publication": record.publication,
+        "publication_place": record.publication_place,
+        "publisher": record.publisher,
+        "source": record.source,
+        "number": record.number,
+        "notebook": record.notebook,
+        "pages": record.pages,
+        "language": record.language,
+        "isbn_or_issn_number": record.isbn_or_issn_number,
+        "doi_number": record.doi_number,
+        "link": record.link,
+        "keywords_and_content": record.keywords_and_content,
+        "comments": record.comments
+    }
+    
+    return response
+        
