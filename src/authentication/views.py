@@ -19,21 +19,22 @@ Class with function to register new user
             email: string,              
             password: string,           *
             confrim_password: string,   *
+            first_name: string,
+            last_name: string
         }
             * are required
 @Return: JSON object with data of new user
         example:
         {
-            "id": 0,
-            "username": "temp",
-            "email": "",
-            "date_joined": "2021-05-20T18:14:19.656609Z",
-            "token": "..."
+            "id": int,
+            "username": string,
+            "email": string,
+            "first_name": string,
+            "last_name": string,
+            "token": string
         }
 """
 class UserRegistrationAPIView(CreateAPIView):
-    authentication_classes = ()
-    permission_classes = ()
     serializer_class = UserRegistrationSerializer
 
     """
@@ -46,7 +47,7 @@ class UserRegistrationAPIView(CreateAPIView):
         self.perform_create(serializer)
 
         user = serializer.instance
-        token = Token.objects.get_or_create(user = user)
+        token, created = Token.objects.get_or_create(user = user)
         data = serializer.data
         data["token"] = token.key
 
@@ -58,18 +59,18 @@ class UserRegistrationAPIView(CreateAPIView):
 UserLoginAPIView
 Class with function to login user and return token
 @Param: JSON object
-        username: string,          
-        password: string,
+        {
+            username: string,          
+            password: string,
+        }
 @Return: JSON object with data of new user
         example:
         {
-            "auth_token": "...",
-            "created": "2021-05-20T18:14:19.789255Z"
+            "auth_token": string,
+            "created": string
         }
 """
 class UserLoginAPIView(GenericAPIView):
-    authentication_classes = ()
-    permission_classes = ()
     serializer_class = UserLoginSerializer
 
     """
@@ -102,15 +103,14 @@ Authentication with token
 @Return: JSON object with token, similiar to login
         example:
         {
-            "auth_token": "...",
-            "created": "2021-05-20T18:14:19.789255Z"
+            "auth_token": string,
+            "created": string
         }
 """
 class UserTokenAPIView(RetrieveDestroyAPIView):
     authentication_classes = ([TokenAuthentication])
     permission_classes = ([IsAuthenticated])
     serializer_class = TokenSerializer
-    queryset = Token.objects.all()
 
     """
     POST request
