@@ -96,6 +96,12 @@ def serializer_update_record(db_id, record_id, data):
         response["code"] = 1
     
     else:
-        response = {"message": "You provided wrong JSON to update record"}
+
+        missed_keys = set(list_of_fields_in_record) - set(list_of_fields_in_data)
+        missed_keys_str = [str(key) for key in missed_keys]
+
+        response["message"] = "Error, you probably missed one of keys needed to update record (%s)" % missed_keys_str
+        response["code"] = 101
+
     return response
         
