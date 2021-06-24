@@ -6,6 +6,7 @@ from bbz_project.settings import STATIC_ROOT
 Functon to fetch MODELS from data/models.json
 @Param: -
 @Return: data: Dict -> JSON files that handle dynamic models
+Test commit
 """
 
 def get_models():
