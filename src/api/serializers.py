@@ -68,7 +68,9 @@ def serializer_update_record(db_id, record_id, data):
 
         change_record_to_data_in_patch()
 
-        response = {
+        response = dict()
+
+        response["data"] = {
             "book_author": record.book_author,
             "co_authors": record.co_authors,
             "editor": record.editor,
@@ -91,6 +93,8 @@ def serializer_update_record(db_id, record_id, data):
             "keywords_and_content": record.keywords_and_content,
             "comments": record.comments
         }
+
+        response["code"] = 1
     
     else:
         response = {"message": "You provided wrong JSON to update record"}
