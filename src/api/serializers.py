@@ -31,6 +31,7 @@ def serializer_update_record(db_id, record_id, data):
 
     list_of_fields_in_record = [f.name for f in record._meta.get_fields() if f.name != "id" and f.name != "author"]
     list_of_fields_in_data = [key for key, value in data.items()]
+    response = dict()
 
     def validate_data():
         # Check, if fields in JSON data are the same like in model.
@@ -67,8 +68,6 @@ def serializer_update_record(db_id, record_id, data):
     if validate_data():
 
         change_record_to_data_in_patch()
-
-        response = dict()
 
         response["data"] = {
             "book_author": record.book_author,
