@@ -35,43 +35,50 @@ Function to return data for requested DB from database
 def get_requested_db(request):
     selected_db = request.query_params.get('db')
     db_exists = False
-    for model in apps.all_models['api']:
-        print(model)
-        if(model == selected_db):
-            db_exists = True
+    available_dbs = serializers.serializer_get_db_data(selected_db)
+    # for model in apps.all_models['api']:
+    #     print(model)
+    #     if(model == selected_db):
+    #         db_exists = True
 
-    if db_exists:
-        data = {
-            "code": 1,
-            "message": "Your request: " + selected_db,
-            "timestamp": int(datetime.datetime.now().timestamp())
-        }
-    else:
-        data = {
-            "code": 2,
-            "message": "Error: DB does not exist !",
-            "timestamp": int(datetime.datetime.now().timestamp())
-        }
+    # if db_exists:
+    #     data = {
+    #         "code": 1,
+    #         "message": "Your request: " + selected_db,
+    #         "timestamp": int(datetime.datetime.now().timestamp())
+    #     }
+    # else:
+    #     data = {
+    #         "code": 2,
+    #         "message": "Error: DB does not exist !",
+    #         "timestamp": int(datetime.datetime.now().timestamp())
+    #     }
+    data = available_dbs
     return Response(data)
 
 """
 get_all_dbs
-Function to return data for all DBs from database
+Function to return data for all DBs from database 
 @Param: -
 @Return: JSON object with data of all DBs available from django models
 """
 @api_view(["POST", "GET"])
 def get_all_dbs(request):
-    available_dbs = []
+    counter = len(apps.all_models['api'])
+    dbs_data = []
     i = 0
-    for model in apps.all_models['api']:
-        available_dbs.append({i : model})
+    for title in apps.all_models['api']:
+        db = serializers.serializer_get_db_data(i)
+        dbs_data.append({title : db})
         i += 1
-        print(model)
+    # for model in apps.all_models['api']:
+    #     available_dbs.append({i : model})
+    #     i += 1
+    #     print(model)
 
     data = {
         "code": 1,
-        "message": available_dbs,
+        "message": dbs_data,
         "timestamp": int(datetime.datetime.now().timestamp())
     }
     return Response(data)
