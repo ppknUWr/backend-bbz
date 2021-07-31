@@ -3,7 +3,10 @@ from django.db.models import query
 import api.json_worker as json_worker
 from api.models import models
 from bbz_project.settings import DEBUG
+<<<<<<< HEAD
 import datetime
+=======
+>>>>>>> main
 
 """
 Function to serialize dynamic models into JSON format
