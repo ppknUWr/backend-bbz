@@ -3,6 +3,7 @@ from django.db.models import query
 import api.json_worker as json_worker
 from api.models import models
 from bbz_project.settings import DEBUG
+import datetime
 
 """
 Function to serialize dynamic models into JSON format
@@ -101,7 +102,8 @@ def serializer_update_record(db_id, record_id, data):
 
         change_record_to_data_in_patch()
 
-        response["data"] = {
+        response["code"] = 1
+        response["message"] = {
             "book_author": record.book_author,
             "co_authors": record.co_authors,
             "editor": record.editor,
@@ -125,14 +127,15 @@ def serializer_update_record(db_id, record_id, data):
             "comments": record.comments
         }
 
-        response["code"] = 1
+        response["timestamp"] = int(datetime.datetime.now().timestamp())
     
     else:
 
         missed_keys = set(list_of_fields_in_record) - set(list_of_fields_in_data)
         missed_keys_str = [str(key) for key in missed_keys]
 
-        response["message"] = "Error, you probably missed one of keys needed to update record (%s)" % missed_keys_str
-        response["code"] = 101
+        response["code"] = 2
+        response["message"] = "Error, you probably missed one of keys, needed to update record (%s)" % missed_keys_str
+        response["timestamp"] = int(datetime.datetime.now().timestamp())
 
     return response

@@ -6,8 +6,6 @@ from django.urls import reverse
 import api.json_worker as json_worker
 import os
 import json
-from django.apps import apps
-
 
 # Create your tests here.
 
