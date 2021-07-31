@@ -28,22 +28,19 @@ def welcome_message_api(request):
 """
 get_requested_db
 Function to return data for requested DB from database
-@Param: selected_db_id: string 
+@Param: selected_db_id: int 
 @Return: JSON object with data of selected DB from django model
 """
 @api_view(["GET"])
 def get_requested_db(request):
     selected_db = request.query_params.get('db')
-    db_exists = False
-    for model in apps.all_models['api']:
-        print(model)
-        if(model == selected_db):
-            db_exists = True
-
+    db_exists = True if int(selected_db) < len(apps.all_models['api']) else False
+    
     if db_exists:
+        db_data = serializers.serializer_get_db_data(selected_db)
         data = {
             "code": 1,
-            "message": "Your request: " + selected_db,
+            "message": db_data,
             "timestamp": int(datetime.datetime.now().timestamp())
         }
     else:
@@ -52,26 +49,28 @@ def get_requested_db(request):
             "message": "Error: DB does not exist !",
             "timestamp": int(datetime.datetime.now().timestamp())
         }
+    
     return Response(data)
 
 """
 get_all_dbs
-Function to return data for all DBs from database
+Function to return data for all DBs from database 
 @Param: -
 @Return: JSON object with data of all DBs available from django models
 """
 @api_view(["POST", "GET"])
 def get_all_dbs(request):
-    available_dbs = []
+    counter = len(apps.all_models['api'])
+    dbs_data = []
     i = 0
-    for model in apps.all_models['api']:
-        available_dbs.append({i : model})
+    for title in apps.all_models['api']:
+        db = serializers.serializer_get_db_data(i)
+        dbs_data.append({title : db})
         i += 1
-        print(model)
 
     data = {
         "code": 1,
-        "message": available_dbs,
+        "message": dbs_data,
         "timestamp": int(datetime.datetime.now().timestamp())
     }
     return Response(data)
@@ -95,6 +94,8 @@ Function to update record in Django DB
 @Param: record_id: Str -> ID of record to update
 """
 @api_view(["PATCH"])
-def update_record(request, db_id, record_id):
-    response = serializers.serializer_update_record(int(db_id), int(record_id), request.data) # db_id and record_id need to be casted into integers.
+def update_record(request):
+    db_id = int(request.query_params.get('db'))
+    record_id = int(request.query_params.get('record'))
+    response = serializers.serializer_update_record(db_id, record_id, request.data) # db_id and record_id need to be casted into integers.
     return Response(response)
