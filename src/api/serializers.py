@@ -24,7 +24,7 @@ def serializer_prepare_model_names():
         data["result"]["code"] = 100 # CODE: Number of models returned from API is less/greater than dynamic models loaded into Django
     return data
 
-"""        
+"""
 Function to serialize data from database model into JSON format
 @Param: db_id: int
 @Return: data: Dict -> Dictionary with all data from a model database
