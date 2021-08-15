@@ -1,7 +1,7 @@
 from django import db
 from django.db.models import query
 import api.json_worker as json_worker
-from api.models import models
+from api.models import models, MetaDBInfo
 from bbz_project.settings import DEBUG
 import datetime
 
@@ -12,16 +12,10 @@ Function to serialize dynamic models into JSON format
 """
 
 def serializer_prepare_model_names():
-    data = dict()
-    data["result"] = dict()
-    data["result"]["names"] = list()
-    for index, model in enumerate(models):
-        data["result"]["names"].append({"id": index, "name": model._meta.object_name})
-
-    if len(data["result"]["names"]) == len(models):
-        data["result"]["code"] = 1 # CODE: Everything is ok
-    else:
-        data["result"]["code"] = 100 # CODE: Number of models returned from API is less/greater than dynamic models loaded into Django
+    data = list()
+    meta_db_info = MetaDBInfo.objects.values()
+    for x in meta_db_info:
+        data.append(x)
     return data
 
 """
@@ -139,3 +133,6 @@ def serializer_update_record(db_id, record_id, data):
         response["timestamp"] = int(datetime.datetime.now().timestamp())
 
     return response
+
+def serializer_add_new_record(db_id, data):
+    pass
