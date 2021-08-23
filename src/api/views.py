@@ -1,6 +1,6 @@
 from django import db
 from django.shortcuts import render
-
+import json
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
@@ -104,8 +104,10 @@ def update_record(request):
     response = serializers.serializer_update_record(db_id, record_id, request.data) # db_id and record_id need to be casted into integers.
     return Response(response)
 
-@api_view(["PATCH"])
+@api_view(["POST"])
 def add_record(request):
-    db_id = int(request.query_params.get('db'))
-    body = request.query_params.get('data')
-    response = serializers.serializer_add_new_record(db_id, request.data)
+    req = json.loads(request.body)
+    db_id = int(req['db_id'])
+    body = req['data']
+    response = serializers.serializer_add_new_record(db_id, body)
+    return Response(response)
