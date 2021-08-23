@@ -11,7 +11,6 @@ class BibliographyTemplateModel(models.Model):
 
     # FIELDS GO HERE
     id = models.IntegerField(primary_key=True) #1 - ID rekordu (integer)
-    author = models.ForeignKey("auth.User", on_delete=models.CASCADE) #2 - Autor (Powiązanie jeden-do-wielu z użytkownikiem.)
     book_author = models.CharField(default = "Bez autora", max_length=512, verbose_name = "Autor książki") #2.5 - Autor (autor książki) 
     co_authors = models.CharField(max_length=256, default = "Bez współtwórcy.", verbose_name = "Współtwórca") #3 - Współtwórca (string)
     editor = models.CharField(max_length = 256, default = "Bez redaktora.", verbose_name = "Redaktor") #4 - Redaktor (string)
