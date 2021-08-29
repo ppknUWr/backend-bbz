@@ -107,7 +107,37 @@ def update_record(request):
 @api_view(["POST"])
 def add_record(request):
     req = json.loads(request.body)
-    db_id = int(req['db_id'])
-    body = req['data']
+    print(req)
+    #acquiring the data from json
+    try:
+        db_id = int(req['db_id'])
+    except KeyError:
+        return Response({
+            "code" : 2,
+            "message" : "Error, no database id provided",
+            "timestamp" : str(int(datetime.datetime.now().timestamp()))
+        })
+
+    try:
+        body = req['data']
+    except KeyError:
+        return Response({
+            "code" : 2,
+            "message" : "Error, no data in the record to be added",
+            "timestamp" : str(int(datetime.datetime.now().timestamp()))
+        })
+
     response = serializers.serializer_add_new_record(db_id, body)
-    return Response(response)
+    
+    if response:
+        return Response({
+            "code" : 0,
+            "message" : "Record added successfully",
+            "timestamp" : str(int(datetime.datetime.now().timestamp()))
+        })
+    else:
+        return Response({
+            "code" : 2,
+            "message" : "Invalid record provided by user",
+            "timestamp" : str(int(datetime.datetime.now().timestamp()))
+        })
