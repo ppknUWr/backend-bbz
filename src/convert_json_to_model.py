@@ -97,7 +97,7 @@ if __name__ == "__main__":
 
     models_django = list() # List handles all models loaded, and pass to admin.py
     models_script = list()
-    models_from_json = json_worker.get_models() # IMPORTANT: Function from json_worker.py
+    models_from_json = json_worker.get_models("/data/models.json") # IMPORTANT: Function from json_worker.py
 
     for model in models_from_json["models"]:
         model = NewBibliographyDynamicModel(BibliographyTemplateModel, model) # Initialise new DynamicModel

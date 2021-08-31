@@ -1,5 +1,6 @@
+from django import db
 from django.shortcuts import render
-
+import json
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
@@ -76,14 +77,18 @@ def get_all_dbs(request):
     return Response(data)
   
 """
-get_model_names
+get_db_names
 Function to return name of models in Django DB
 @Param: -
 @Return: JSON object with informations about name of models in Django DB fetched from serializers.py
 """
 @api_view(["GET"])
-def get_model_names(request):
-    return Response(serializers.serializer_prepare_model_names())
+def get_db_names(request):
+    data = {
+        "code": 1,
+        "message": serializers.serializer_prepare_model_names()
+    }
+    return Response(data)
 
 """
 update_record
@@ -98,3 +103,41 @@ def update_record(request):
     record_id = int(request.query_params.get('record'))
     response = serializers.serializer_update_record(db_id, record_id, request.data) # db_id and record_id need to be casted into integers.
     return Response(response)
+
+@api_view(["POST"])
+def add_record(request):
+    req = json.loads(request.body)
+    print(req)
+    #acquiring the data from json
+    try:
+        db_id = int(req['db_id'])
+    except KeyError:
+        return Response({
+            "code" : 2,
+            "message" : "Error, no database id provided",
+            "timestamp" : str(int(datetime.datetime.now().timestamp()))
+        })
+
+    try:
+        body = req['data']
+    except KeyError:
+        return Response({
+            "code" : 2,
+            "message" : "Error, no data in the record to be added",
+            "timestamp" : str(int(datetime.datetime.now().timestamp()))
+        })
+
+    response = serializers.serializer_add_new_record(db_id, body)
+    
+    if response:
+        return Response({
+            "code" : 0,
+            "message" : "Record added successfully",
+            "timestamp" : str(int(datetime.datetime.now().timestamp()))
+        })
+    else:
+        return Response({
+            "code" : 2,
+            "message" : "Invalid record provided by user",
+            "timestamp" : str(int(datetime.datetime.now().timestamp()))
+        })
