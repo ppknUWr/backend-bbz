@@ -100,8 +100,24 @@ Function to update record in Django DB
 """
 @api_view(["PATCH"])
 def update_record(request):
-    db_id = int(request.query_params.get('db'))
-    record_id = int(request.query_params.get('record'))
+    try:
+        db_id = int(request.query_params.get('db'))
+    except (ValueError, TypeError) as exception :
+        return Response({
+            "code": 2,
+            "message": "Error, no database id provided",
+            "timestamp": str(int(datetime.datetime.now().timestamp()))
+        })
+
+    try:
+        record_id = int(request.query_params.get('record'))
+    except (ValueError, TypeError) as exception:
+        return Response({
+            "code": 2,
+            "message": "Error, no record id provided",
+            "timestamp": str(int(datetime.datetime.now().timestamp()))
+        })
+
     response = serializers.serializer_update_record(db_id, record_id, request.data) # db_id and record_id need to be casted into integers.
     return Response(response)
 

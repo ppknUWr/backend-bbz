@@ -57,7 +57,7 @@ Function to serializer given data to update record
 def serializer_update_record(db_id, record_id, data):
     record = models[db_id].objects.get(id = record_id)
 
-    list_of_fields_in_record = [f.name for f in record._meta.get_fields() if f.name != "id" and f.name != "author"]
+    list_of_fields_in_record = [f.name for f in record._meta.get_fields() if f.name != "id"]
     list_of_fields_in_data = [key for key, value in data.items()]
     response = dict()
 
