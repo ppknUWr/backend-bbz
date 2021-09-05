@@ -65,9 +65,10 @@ def get_all_dbs(request):
     dbs_data = []
     i = 0
     for title in apps.all_models['api']:
-        db = serializers.serializer_get_db_data(i)
-        dbs_data.append({title : db})
-        i += 1
+        if (title != "metadbinfo"):
+            db = serializers.serializer_get_db_data(i)
+            dbs_data.append({title : db})
+            i += 1
 
     data = {
         "code": 1,
