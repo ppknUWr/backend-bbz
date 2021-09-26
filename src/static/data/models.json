@@ -1,5 +1,5 @@
 {
-    "models": [ 
+    "models": [
         "augustyn_corpus1_the_global_book_publishing_market", 
         "augustyn_global_book_publishing_2001_2018",
         "bernacki_miedzywojenna_fantastyka",
@@ -10,5 +10,5 @@
         "lubocki_bibliografia_podmiotowa_stefanii_grodzienskiej",
         "lubocki_bibliografia_przedmiotowa_stefanii_grodzienskiej",
         "nabialczyk_bibliografia_o_iinib_UWr"
-        ]
+    ]
 }

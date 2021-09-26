@@ -3,7 +3,7 @@
 .*
 *.py.bak
 
-
+/src/db.sqlite3
 /site/
 /htmlcov/
 /coverage/

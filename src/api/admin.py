@@ -1,6 +1,6 @@
 from django.contrib import admin
 import json
-from .models import models, BibliographyTemplateModel
+from .models import models, BibliographyTemplateModel, MetaDBInfo
 
 # Register your models here.
 
@@ -8,6 +8,7 @@ from .models import models, BibliographyTemplateModel
 """
 Loop register all models for /admin site. MODELS are list got from models.py
 """
+
 for model in models:
     @admin.register(model)
     class BibliographyTemplateModelAdmin(admin.ModelAdmin):
@@ -15,5 +16,9 @@ for model in models:
         list_filter = ('publication_date', 'pages')
         search_fields = ['book_author', 'title', 'publication_date', 'isbn_or_issn_number', 'doi_number']
 
-
+@admin.register(MetaDBInfo)
+class MetaDBInfoAdmin(admin.ModelAdmin):
+    list_display = ('db_name', 'real_db_name', 'author')
+    list_filter = ('db_name', 'real_db_name', 'author')
+    search_fields = ['db_name', 'real_db_name', 'author']
 
