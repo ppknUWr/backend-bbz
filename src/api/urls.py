@@ -9,5 +9,7 @@ urlpatterns = [
     path('get_all_dbs', views.get_all_dbs),
     path('db_names', views.get_db_names),
     path('update_record', views.update_record),
-    path('add_record', views.add_record)
+    path('add_record', views.add_record),
+    path('delete_record', views.delete_record),
+    path('delete_database',views.delete_database)
 ]

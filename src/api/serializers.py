@@ -151,3 +151,23 @@ def serializer_add_new_record(db_id, data):
         keywords_and_content=data.get('keywords_and_content', 'None'), comments=data.get('comments', 'None'))
     
     return True
+
+def serializer_delete_record(db_id, record_id, data):
+    selected_db = models[db_id - 1]
+    temp = selected_db.objects.all().filter(id = str(record_id))
+    if temp:
+        temp.delete()
+        response = {
+            "code": 1,
+            "message": "Successfuly deleted record"
+        }
+    else:
+        response = {
+            "code": 2,
+            "message": "No such record in database"
+        }
+    return response
+
+def serializer_delete_database(db_id, data):
+    selected_db = models[db_id - 1]
+    selected_db.objects.all().delete()

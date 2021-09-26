@@ -1,4 +1,5 @@
 from django import db
+from django.http import response
 from django.shortcuts import render
 import json
 from rest_framework.response import Response
@@ -7,6 +8,8 @@ from rest_framework.decorators import api_view
 from django.apps import apps
 import datetime
 import api.serializers as serializers
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 # Create your views here.0
 
 """
@@ -158,3 +161,39 @@ def add_record(request):
             "message" : "Invalid record provided by user",
             "timestamp" : str(int(datetime.datetime.now().timestamp()))
         })
+
+
+@api_view(["DELETE"])
+def delete_record(request):
+    try:
+        db_id = int(request.data['database_id'])
+    except:
+        return Response({
+            "code": 2,
+            "message": "Error, no database id provided"
+        })
+    try:
+        record_id = int(request.data['record_id'])
+    except:
+        return Response({
+            "code": 2,
+            "message": "Error, no record id provided"
+        })
+    response = serializers.serializer_delete_record(db_id, record_id, request.data)
+    return Response(response)
+
+
+
+
+
+@api_view(["DELETE"])
+def delete_database(request):
+    try:
+        db_id = int(request.data['database_id'])
+    except:
+        return Response({
+            "code": 2,
+            "message": "Error, no database id provided"
+        })
+    response = serializers.serializer_delete_database(db_id, request.data)
+    return Response(response)
