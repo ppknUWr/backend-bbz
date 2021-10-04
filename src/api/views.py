@@ -101,7 +101,7 @@ Function to update record in Django DB
 @api_view(["PATCH"])
 def update_record(request):
     try:
-        db_id = int(request.query_params.get('db'))
+        db_id = int(request.query_params.get('db')) # TODO: Change query_params to db_id
     except (ValueError, TypeError) as exception :
         return Response({
             "code": 2,
@@ -110,7 +110,7 @@ def update_record(request):
         })
 
     try:
-        record_id = int(request.query_params.get('record'))
+        record_id = int(request.query_params.get('record')) # TODO: Change query_params to record_id
     except (ValueError, TypeError) as exception:
         return Response({
             "code": 2,
