@@ -102,7 +102,7 @@ Function to update record in Django DB
 def update_record(request):
     try:
         db_id = int(request.query_params.get('db')) # TODO: Change query_params to db_id
-    except (ValueError, TypeError) as exception :
+    except (ValueError, TypeError) as exception:
         return Response({
             "code": 2,
             "message": "Error, no database id provided",
