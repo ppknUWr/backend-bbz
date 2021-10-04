@@ -121,10 +121,11 @@ def update_record(request):
     response = serializers.serializer_update_record(db_id, record_id, request.data) # db_id and record_id need to be casted into integers.
     return Response(response)
 
+# TODO: Add description here. 
 @api_view(["POST"])
 def add_record(request):
     req = json.loads(request.body)
-    print(req)
+    print(req) # TODO: Remove this print.
     #acquiring the data from json
     try:
         db_id = int(req['db_id'])
