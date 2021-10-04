@@ -98,6 +98,7 @@ Function to update record in Django DB
 @Param: db_id: Str -> ID of DB to update
 @Param: record_id: Str -> ID of record to update
 """
+# TODO: Add validation if db_id and record_id is less (<=) than amount of dbs and record in it.
 @api_view(["PATCH"])
 def update_record(request):
     # TODO: Change query_params to load json, not URL data.
@@ -123,6 +124,7 @@ def update_record(request):
     return Response(response)
 
 # TODO: Add description here. 
+# TODO: Add validation if db_id is less than size of dbs.
 @api_view(["POST"])
 def add_record(request):
     req = json.loads(request.body)
