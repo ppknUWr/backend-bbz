@@ -102,7 +102,7 @@ Function to update record in Django DB
 def update_record(request):
     try:
         db_id = int(request.query_params.get('db'))
-    except (ValueError, TypeError) as exception :
+    except (ValueError, TypeError) as exception:
         return Response({
             "code": 2,
             "message": "Error, no database id provided",
@@ -158,3 +158,31 @@ def add_record(request):
             "message" : "Invalid record provided by user",
             "timestamp" : str(int(datetime.datetime.now().timestamp()))
         })
+
+# TODO: Add validation if db_id and record_id is less (<=) than amount of dbs and record in it.
+@api_view(["DELETE"])
+def remove_record(request):
+    req = json.loads(request.body)
+
+    # Acquire db_id from JSON given to endpoint.
+    try:
+        db_id = int(req['db_id'])
+    except (ValueError, TypeError, KeyError) as exception:
+        return Response({
+            "code": 2,
+            "message": "Error, no database id provided",
+            "timestamp": str(int(datetime.datetime.now().timestamp()))
+        })
+
+    # Acquire record_id from JSON given to endpoint.
+    try:
+        record_id = int(req['record_id'])
+    except (ValueError, TypeError, KeyError) as exception:
+        return Response({
+            "code": 2,
+            "message": "Error, no record id provided",
+            "timestamp": str(int(datetime.datetime.now().timestamp()))
+        })
+
+    response = serializers.serializer_remove_record(db_id, record_id)
+    return Response(response)

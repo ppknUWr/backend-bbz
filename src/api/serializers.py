@@ -151,3 +151,7 @@ def serializer_add_new_record(db_id, data):
         keywords_and_content=data.get('keywords_and_content', 'None'), comments=data.get('comments', 'None'))
     
     return True
+
+def serializer_remove_record(db_id, record_id):
+    print(f"Current db id is: {db_id} and record id is: {record_id}")
+    return {}
