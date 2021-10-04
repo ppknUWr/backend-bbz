@@ -100,6 +100,7 @@ Function to update record in Django DB
 """
 @api_view(["PATCH"])
 def update_record(request):
+    # TODO: Change query_params to load json, not URL data.
     try:
         db_id = int(request.query_params.get('db')) # TODO: Change query_params to db_id
     except (ValueError, TypeError) as exception:
