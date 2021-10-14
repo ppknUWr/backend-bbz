@@ -1,7 +1,10 @@
 from django.urls import path
-from . import views
+from authentication.views import UserRegistrationAPIView, UserLoginAPIView, UserTokenAPIView
+
 
 urlpatterns = [
-    path('', views.welcome_message_authentication)
+    path('register/', UserRegistrationAPIView.as_view()),
+    path('login/', UserLoginAPIView.as_view()),
+    path('tokens/', UserTokenAPIView.as_view()),
 ]
 

@@ -98,10 +98,16 @@ Function to update record in Django DB
 @Param: db_id: Str -> ID of DB to update
 @Param: record_id: Str -> ID of record to update
 """
+# TODO: Add validation if db_id and record_id is less (<=) than amount of dbs and record in it.
 @api_view(["PATCH"])
 def update_record(request):
+    # TODO: Change query_params to load json, not URL data.
     try:
+<<<<<<< HEAD
         db_id = int(request.query_params.get('db'))
+=======
+        db_id = int(request.query_params.get('db')) # TODO: Change query_params to db_id
+>>>>>>> main
     except (ValueError, TypeError) as exception:
         return Response({
             "code": 2,
@@ -110,7 +116,7 @@ def update_record(request):
         })
 
     try:
-        record_id = int(request.query_params.get('record'))
+        record_id = int(request.query_params.get('record')) # TODO: Change query_params to record_id
     except (ValueError, TypeError) as exception:
         return Response({
             "code": 2,
@@ -121,10 +127,12 @@ def update_record(request):
     response = serializers.serializer_update_record(db_id, record_id, request.data) # db_id and record_id need to be casted into integers.
     return Response(response)
 
+# TODO: Add description here. 
+# TODO: Add validation if db_id is less than size of dbs.
 @api_view(["POST"])
 def add_record(request):
     req = json.loads(request.body)
-    print(req)
+    print(req) # TODO: Remove this print.
     #acquiring the data from json
     try:
         db_id = int(req['db_id'])
@@ -158,6 +166,7 @@ def add_record(request):
             "message" : "Invalid record provided by user",
             "timestamp" : str(int(datetime.datetime.now().timestamp()))
         })
+<<<<<<< HEAD
 
 
 """
@@ -220,3 +229,5 @@ def remove_record(request):
 
     response = serializers.serializer_remove_record(db_id, record_id)
     return Response(response)
+=======
+>>>>>>> main
