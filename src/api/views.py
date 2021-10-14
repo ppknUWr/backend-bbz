@@ -127,6 +127,7 @@ def update_record(request):
 # TODO: Add validation if db_id is less than size of dbs.
 @api_view(["POST"])
 def add_record(request):
+    # TODO: Add validaiton here.
     req = json.loads(request.body)
     print(req) # TODO: Remove this print.
     #acquiring the data from json
