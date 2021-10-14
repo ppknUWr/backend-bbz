@@ -152,3 +152,32 @@ def serializer_add_new_record(db_id, data):
         keywords_and_content=data.get('keywords_and_content', 'None'), comments=data.get('comments', 'None'))
     
     return True
+  
+"""
+Function to serializer given data to remove record
+@Param: db_id: Int -> ID of Table to update
+@Param: record_id: Int -> ID of Record to update
+@Return: response: Dict -> data providing infromation about status of serialize.
+"""
+def serializer_remove_record(db_id, record_id):
+
+    response = dict()
+
+    try:
+        record = models[db_id].objects.filter(id = record_id)
+        record.delete()
+
+        response["code"] = 1
+        response["message"] = "Record removed successfuly."
+        response["timestamp"] = int(datetime.datetime.now().timestamp())
+
+    except IndexError:
+        response["code"] = 2
+        response["message"] = "Error. Database ID or Record ID out of range."
+        response["timestamp"] = int(datetime.datetime.now().timestamp())
+    except Exception:
+        response["code"] = 2
+        response["message"] = "Error - unknow. Contact backend dev team."
+        response["timestamp"] = int(datetime.datetime.now().timestamp())
+
+    return response
