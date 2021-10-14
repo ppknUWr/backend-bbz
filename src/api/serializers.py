@@ -174,5 +174,9 @@ def serializer_remove_record(db_id, record_id):
         response["code"] = 2
         response["message"] = "Error. Database ID or Record ID out of range."
         response["timestamp"] = int(datetime.datetime.now().timestamp())
+    except Exception:
+        response["code"] = 2
+        response["message"] = "Error - unknow. Contact backend dev team."
+        response["timestamp"] = int(datetime.datetime.now().timestamp())
 
     return response

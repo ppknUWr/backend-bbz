@@ -166,7 +166,6 @@ def add_record(request):
             "message" : "Invalid record provided by user",
             "timestamp" : str(int(datetime.datetime.now().timestamp()))
         })
-<<<<<<< HEAD
 
 
 """
@@ -229,5 +228,3 @@ def remove_record(request):
 
     response = serializers.serializer_remove_record(db_id, record_id)
     return Response(response)
-=======
->>>>>>> main
