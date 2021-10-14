@@ -103,11 +103,7 @@ Function to update record in Django DB
 def update_record(request):
     # TODO: Change query_params to load json, not URL data.
     try:
-<<<<<<< HEAD
-        db_id = int(request.query_params.get('db'))
-=======
         db_id = int(request.query_params.get('db')) # TODO: Change query_params to db_id
->>>>>>> main
     except (ValueError, TypeError) as exception:
         return Response({
             "code": 2,
