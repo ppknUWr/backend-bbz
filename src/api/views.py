@@ -159,10 +159,32 @@ def add_record(request):
             "timestamp" : str(int(datetime.datetime.now().timestamp()))
         })
 
-# TODO: Add validation if db_id and record_id is less (<=) than amount of dbs and record in it.
+
+"""
+remove_record
+Function to remove revord from DB.
+@Param: request: Request OBJ -> Handle request, and JSON data of record that we want to update
+@Param: db_id: Str -> ID of DB to update
+@Param: record_id: Str -> ID of record to update
+@Return: response: json -> JSON providing information about status of request.
+"""
 @api_view(["DELETE"])
 def remove_record(request):
-    req = json.loads(request.body)
+
+    try:
+      req = json.loads(request.body)
+    except json.JSONDecodeError:
+        return Response({
+            "code": 2,
+            "message": "Error, messed up JSON.",
+            "timestamp": str(int(datetime.datetime.now().timestamp()))
+        })
+    except Exception:
+        return Response({
+            "code": 2,
+            "message": "Error - unknow. Contact backend dev team.",
+            "timestamp": str(int(datetime.datetime.now().timestamp()))
+        })
 
     # Acquire db_id from JSON given to endpoint.
     try:
@@ -173,6 +195,12 @@ def remove_record(request):
             "message": "Error, no database id provided",
             "timestamp": str(int(datetime.datetime.now().timestamp()))
         })
+    except Exception:
+        return Response({
+            "code": 2,
+            "message": "Error - unknow. Contact backend dev team.",
+            "timestamp": str(int(datetime.datetime.now().timestamp()))
+        })
 
     # Acquire record_id from JSON given to endpoint.
     try:
@@ -181,6 +209,12 @@ def remove_record(request):
         return Response({
             "code": 2,
             "message": "Error, no record id provided",
+            "timestamp": str(int(datetime.datetime.now().timestamp()))
+        })
+    except Exception:
+        return Response({
+            "code": 2,
+            "message": "Error - unknow. Contact backend dev team.",
             "timestamp": str(int(datetime.datetime.now().timestamp()))
         })
 
