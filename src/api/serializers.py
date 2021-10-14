@@ -136,6 +136,7 @@ def serializer_update_record(db_id, record_id, data):
     return response
 
 def serializer_add_new_record(db_id, data):
+    #TODO: Why print here?
     print(data)
     selected_db = models[db_id]
     #need to get the rules of a record being valid and apply it to the logic of the function
@@ -151,7 +152,7 @@ def serializer_add_new_record(db_id, data):
         keywords_and_content=data.get('keywords_and_content', 'None'), comments=data.get('comments', 'None'))
     
     return True
-
+  
 """
 Function to serializer given data to remove record
 @Param: db_id: Int -> ID of Table to update
