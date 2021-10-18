@@ -136,13 +136,13 @@ def serializer_update_record(db_id, record_id, data):
             response["message"] = "Error, you probably missed one of keys, needed to update record (%s)" % missed_keys_str
             response["timestamp"] = int(datetime.datetime.now().timestamp())
 
-    except IndexError:
+    except (IndexError, ObjectDoesNotExist) as exception:
         response["code"] = 2
         response["message"] = "Error. Database ID or Record ID out of range."
         response["timestamp"] = int(datetime.datetime.now().timestamp())
-    except ObjectDoesNotExist:
+    except Exception:
         response["code"] = 2
-        response["message"] = "Error. Database ID or Record ID out of range."
+        response["message"] = "Error - unknow. Contact backend dev team.."
         response["timestamp"] = int(datetime.datetime.now().timestamp())
 
     return response
