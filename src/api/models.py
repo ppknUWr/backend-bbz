@@ -70,9 +70,10 @@ Model to save meta data about the models available
 class MetaDBInfo(models.Model):
     #we need id, db_name, db_name to show, name of the Author
     id = models.AutoField(primary_key=True) #1 - ID rekordu (integer) 
-    db_name = models.CharField(max_length=200)
-    real_db_name = models.CharField(max_length=200)
-    author = models.CharField(max_length=50)
+    db_name = models.CharField(max_length=200, default="name of database")
+    real_db_name = models.CharField(max_length=200, default="real_name database")
+    author = models.CharField(max_length=50, default="author database")
+    description = models.TextField(default="description database")
 
     def __str__(self) -> str:
         return "Model to save meta data about existing databases"

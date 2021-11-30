@@ -18,6 +18,6 @@ if __name__ == "__main__":
     print("Starting saving meta data")
     meta_data = json_worker.get_models(path_to_json)
     #print(meta_data)
-    db_meta = [MetaDBInfo(db_name = x['db_name'], real_db_name = x['real_db_name'], author = x['author']) for x in meta_data]
+    db_meta = [MetaDBInfo(db_name = x['db_name'], real_db_name = x['real_db_name'], author = x['author'], description = x['description']) for x in meta_data]
     MetaDBInfo.objects.bulk_create(db_meta)
     

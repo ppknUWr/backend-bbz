@@ -1,4 +1,5 @@
 from django import db
+from django.db.models.base import Model
 from django.shortcuts import render
 import json
 from rest_framework.response import Response
@@ -7,6 +8,8 @@ from rest_framework.decorators import api_view
 from django.apps import apps
 import datetime
 import api.serializers as serializers
+from api.models_handler import ModelHandler
+from api.models import models, MetaDBInfo
 # Create your views here.0
 
 """
@@ -61,14 +64,16 @@ Function to return data for all DBs from database
 """
 @api_view(["POST", "GET"])
 def get_all_dbs(request):
-    counter = len(apps.all_models['api'])
+    meta_db_info = MetaDBInfo.objects.values()
+    counter = len(meta_db_info)
+    print(meta_db_info)
+    print(counter)
     dbs_data = []
     i = 0
-    for title in apps.all_models['api']:
-        if (title != "metadbinfo"):
-            db = serializers.serializer_get_db_data(i)
-            dbs_data.append({title : db})
-            i += 1
+    for i in range(0, counter):
+        db = serializers.serializer_get_db_data(i)
+        dbs_data.append({meta_db_info[i]["real_db_name"]  : db})
+        i += 1
 
     data = {
         "code": 1,
@@ -78,13 +83,13 @@ def get_all_dbs(request):
     return Response(data)
   
 """
-get_db_names
+get_meta_db_info
 Function to return name of models in Django DB
 @Param: -
 @Return: JSON object with informations about name of models in Django DB fetched from serializers.py
 """
 @api_view(["GET"])
-def get_db_names(request):
+def get_meta_db_info(request):
     data = {
         "code": 1,
         "message": serializers.serializer_prepare_model_names()
@@ -225,3 +230,9 @@ def remove_record(request):
 
     response = serializers.serializer_remove_record(db_id, record_id)
     return Response(response)
+
+@api_view(["POST"])
+def test_view(request):
+    x = ModelHandler()
+    x.add_new_model("kurwy_chlanie_i_ruchanie")
+    return Response(x.list_models())
